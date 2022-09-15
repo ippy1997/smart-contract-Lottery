@@ -36,7 +36,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     }
 
     /* State Variables */
-    uint256 private immutable i_enternaceFee;
+    uint256 private immutable i_entranceFee;
     address payable[] private s_players;
     VRFCoordinatorV2Interface private immutable i_vrfCoordinator;
     bytes32 private immutable i_gasLane;
@@ -59,13 +59,13 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     /* functions */
     constructor(
         address vrfCoordinatorV2, //contract , therefor we need a mock
-        uint256 enternaceFee,
+        uint256 entranceFee,
         bytes32 gasLane,
         uint64 subscriptionId,
         uint32 callbackGasLimit,
         uint256 interval
     ) VRFConsumerBaseV2(vrfCoordinatorV2) {
-        i_enternaceFee = enternaceFee;
+        i_entranceFee = entranceFee;
         //saving the vrfCoordinator in the address and wrap it with the interface
         i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
         i_gasLane = gasLane;
@@ -78,7 +78,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
     function enterRaffle() public payable {
         // require msg.value >  i_enteranceFee
-        if (msg.value < i_enternaceFee) {
+        if (msg.value < i_entranceFee) {
             revert Raffle__NotEnoughETHEnterd();
         }
         if (s_raffleState != RaffleState.OPEN) {
@@ -174,7 +174,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
     /*view / pure functions*/
     function getEntranceFee() public view returns (uint256) {
-        return i_enternaceFee;
+        return i_entranceFee;
     }
 
     function getPLayer(uint256 index) public view returns (address) {
@@ -205,3 +205,4 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         return REQUEST_CONFIRMATIONS;
     }
 }
+
