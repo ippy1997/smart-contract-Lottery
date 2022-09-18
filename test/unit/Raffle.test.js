@@ -220,10 +220,10 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                                       )
                                       .toString()
                               )
+                              resolve()
                           } catch (error) {
                               reject(e)
                           }
-                          resolve()
                       })
                       // setting up a listener
 
