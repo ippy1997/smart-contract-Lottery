@@ -40,7 +40,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
           describe("enterRaffle", () => {
               it("should revert when you dont have enough eth", async () => {
                   await expect(raffle.enterRaffle()).to.be.revertedWith(
-                      "Raffle__NotEnoughETHEnterd"
+                      "Raffle__NotEnoughETHEntered"
                   )
               })
 
