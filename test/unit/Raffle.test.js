@@ -206,7 +206,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                               // asserts
                               assert.equal(numPlayers.toString(), "0")
                               assert.equal(raffleState.toString(), "0")
-                              assert.equal(endingTimeStamp > startingTimeStamp)
+                              assert(endingTimeStamp > startingTimeStamp)
 
                               // doing the math to make sure the winner gets the right amount
 
@@ -221,7 +221,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                                       .toString()
                               )
                           } catch (error) {
-                              reject(e)
+                              reject(error)
                           }
                           resolve()
                       })
@@ -230,7 +230,7 @@ const { developmentChains, networkConfig } = require("../../helper-hardhat-confi
                       // below , we will fire the event , and the listner will pick it up , and resolve
                       const tx = await raffle.performUpkeep([])
                       const txReceipt = await tx.wait(1)
-                      const winnerStartingBalace = await accounts[1].getBalance()
+                      const winnerStartingBalace = await accounts[2].getBalance()
                       await vrfCoordinatorV2Mock.fulfillRandomWords(
                           txReceipt.events[1].args.requestId,
                           raffle.address
