@@ -16,7 +16,7 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/KeeperCompatibleInterface.sol";
 error Raffle__NotEnoughETHEnterd();
 error Raffle__TransferFailed();
-error Raffle__NotOPen();
+error Raffle__NotOpen();
 error Raffle__upkeepNotNeeded(uint256 currentBalance, uint256 numPlayers, uint256 raffestate);
 
 /** @title A sample Raffle Contract
@@ -57,6 +57,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     event WinnerPicked(address indexed winner); // to keep track of the recentWinenr
 
     /* functions */
+
     constructor(
         address vrfCoordinatorV2, //contract , therefor we need a mock
         uint256 enternaceFee,
@@ -82,7 +83,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
             revert Raffle__NotEnoughETHEnterd();
         }
         if (s_raffleState != RaffleState.OPEN) {
-            revert Raffle__NotOPen();
+            revert Raffle__NotOpen();
         }
         s_players.push(payable(msg.sender));
         //emit an event
@@ -177,7 +178,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         return i_enternaceFee;
     }
 
-    function getPLayer(uint256 index) public view returns (address) {
+    function getPlayer(uint256 index) public view returns (address) {
         return s_players[index];
     }
 
@@ -203,5 +204,9 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
 
     function getRequestCofirmations() public pure returns (uint256) {
         return REQUEST_CONFIRMATIONS;
+    }
+
+    function getInterval() public view returns (uint256) {
+        return i_interval;
     }
 }
